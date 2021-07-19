@@ -1,16 +1,16 @@
 # rtl-arabic
 
-Display arabic text from right to left in console/terminal. It's doesn't support the letters with punctuations yet. I'll complete it when I get time. The code is not the best but it works for now.
+Display arabic text from right to left in console/terminal. It now supports most punctuations (Harakat). I'll add the rest of the features in the future.
 
 # Exposed Functions
 
-- rtlConverter
+- convertSentence
 
 # Example!
 
 ```js
-const rtlConverter = require("rtl-arabic");
-const convertedText = rtlConverter("احبكم");
+const rtlArabic = require("rtl-arabic");
+const convertedText = rtlArabic("احبكم");
 console.log(convertedText); // احبكم
 ```
 
@@ -18,10 +18,13 @@ console.log(convertedText); // احبكم
 
 - Fixed the لا || laa character
 - Fixed unlinked characters
+- Added Harakat Support
 
 # Todo:
 
-- Add Harakat Support
+- ~~Fix the لا || laa character~~
+- ~~Fix unlinked characters~~
+- ~~Add Harakat Support~~
 - Add Numbers Support
 - Display both Arabic and English text correctly
 - Support Farsi

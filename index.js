@@ -1,2 +1,2 @@
-const rtlConverter = require("./utils");
-module.exports = rtlConverter;
+const rtlArabic = require("./src/lib");
+module.exports = rtlArabic;
