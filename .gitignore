@@ -1,0 +1,8 @@
+/tests
+/tests/*
+test.js
+*.txt
+/node_modules
+node_modules
+/node_modules/*
+.vscode/

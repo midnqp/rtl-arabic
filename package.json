@@ -9,7 +9,7 @@
     "url": "git://github.com/6f5/rtl-arabic.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "test": "mocha"
   },
   "keywords": [
     "rtl",
@@ -18,5 +18,8 @@
     "display arabic text from right to left"
   ],
   "author": "Abdulla Saeed",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^9.2.2"
+  }
 }

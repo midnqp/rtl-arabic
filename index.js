@@ -1,2 +1,3 @@
-const rtlArabic = require("./src/lib");
-module.exports = rtlArabic;
+const RTLArabic = require("./src/RTLArabic");
+
+module.exports = RTLArabic;
