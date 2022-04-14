@@ -23,9 +23,10 @@ Sure, most applications don't support the Arabic language, but they support the 
   - Numbers
   - Symbols
 - Supports Farsi
-  - Numbers
+  - Numbers & Conversion
   - Letters
   - Harakat
+  - Symbols
 - Can be used in a browser
 - All it needs is an application that supports unicode 😊
 
@@ -45,7 +46,7 @@ console.log(convertedText); // احبكم
 // Convert English numbers to Arabic
 convertedText = new RTLArabic("السلام عليكم - 2022", {
   numbers: true,
-});
+}).convert();
 console.log(convertedText); // السلام عليكم - ٢٠٢٢
 ```
 
