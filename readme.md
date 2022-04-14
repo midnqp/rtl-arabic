@@ -12,29 +12,41 @@ Sure, most applications don't support the Arabic language, but they support the 
 
 # What are the features of this library?
 
-- It's FREE
 - Does not need fonts to support it
-- All it needs is an application that supports unicode 😊
-- Supports Arabic Letters
-- Supports Arabic Numbers & Conversion
-- Supports Arabic Symbols
-- Supports Arabic Harakat
-- Supports English Letters
-- Supports English Numbers
-- Supports English Symbols
-- Can be used in a browser
+- Supports Arabic
+  - Letters
+  - Numbers & Conversion
+  - Symbols
+  - Harakat
+- Supports English
+  - Letters
+  - Numbers
+  - Symbols
 - Supports Farsi
+  - Numbers
+  - Letters
+  - Harakat
+- Can be used in a browser
+- All it needs is an application that supports unicode 😊
 
-# Example!
+# Examples
 
 ```js
 const RTLArabic = require("rtl-arabic");
+
 const options = {
   harakat: true,
   numbers: false,
 };
-const convertedText = new RTLArabic("احبكم", options).convert();
+
+let convertedText = new RTLArabic("احبكم", options).convert();
 console.log(convertedText); // احبكم
+
+// Convert English numbers to Arabic
+convertedText = new RTLArabic("السلام عليكم - 2022", {
+  numbers: true,
+});
+console.log(convertedText); // السلام عليكم - ٢٠٢٢
 ```
 
 # Options
@@ -43,6 +55,12 @@ console.log(convertedText); // احبكم
 | :------ | :-----------------------------------------: | ------------: | ------: |
 | harakat |           Enable harakat support            |          True | Boolean |
 | numbers | Enable English to Arabic numbers conversion |         False | Boolean |
+
+# Tests
+
+```js
+npm test
+```
 
 ## What's New?
 

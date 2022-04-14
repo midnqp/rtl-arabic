@@ -20,6 +20,9 @@ class RTLChar extends String {
   // Sybmols
   static symbols = "ًٌٍَُِّـ.،؟ @#$%^&*-+|/=~(){}ْ,";
 
+  // Alef chars
+  static alefChars = "آأإا";
+
   constructor(string) {
     super(string);
 
@@ -30,12 +33,16 @@ class RTLChar extends String {
     this.both = this.isMiddle();
   }
 
+  isAlefChar() {
+    return RTLChar.alefChars.indexOf(this) >= 0;
+  }
+
   isMiddle() {
     return this.isRight(this) && this.isLeft(this);
   }
 
   isRightOnly() {
-    return this.isLeft(this) && !this.isRight(this);
+    return !this.isLeft(this) && this.isRight(this);
   }
 
   isLeftOnly() {
@@ -83,74 +90,42 @@ class RTLChar extends String {
   }
 
   getPos(charBefore, charAfter) {
-    // If there's no character before but there's a character
-    // after
-    if (!charBefore && charAfter) {
-      // If can connect to character after
-      if (this.left) {
-        // If the character after can connect to one before it
-        if (charAfter.right) {
-          return START;
-        }
-      }
+    // Handle single character
+    if (!charBefore && !charAfter) return ISOLATED;
 
+    // Handle first character
+    if (!charBefore) {
+      if (charAfter.right && this.left) return START;
       return ISOLATED;
     }
 
-    // If there's no character after but there's a character before
-    if (!charAfter && charBefore) {
-      // If current character can connect to character before it
-      if (this.right) {
-        // If character before it can connect to characters after it
-        if (charBefore.left) {
-          return END;
-        }
-      }
-
+    // Handle last character
+    if (!charAfter) {
+      if (this.right && charBefore.left) return END;
       return ISOLATED;
     }
 
-    // If there's a character after and before
-    // If current character can connect to characters before it and after it
+    // Handle character in middle
+
+    // Handle character that can connect to both ends
     if (this.both) {
-      // Check if character before it and after it can connect to it
-      if (charBefore.left && charAfter.right) {
-        return MIDDLE;
-      }
-
-      // If character before it can't connect to it
-      // and the character after it can connect to it
-      if (!charBefore.left && charAfter.right) {
-        return START;
-      } else {
-        // If character after it can't connect to
-        // but the one before it can
-        return END;
-      }
-
-      // If both characters before it and after it can't connect to it
+      if (charBefore.left && charAfter.right) return MIDDLE;
+      if (charBefore.left && !charAfter.right) return END;
+      if (!charBefore.left && charAfter.right) return START;
       return ISOLATED;
     }
 
-    // If can connect to only characters after it
-    if (this.leftOnly) {
-      // Check if character after it can connect to it
-      if (charAfter && charAfter.right) {
-        return START;
-      }
-
-      return ISOLATED;
-    }
-
-    // If can connect to only characters before it
+    // Handle character that can connect to right only
     if (this.rightOnly) {
-      // Check if character before it can connect to it
-      if (charBefore && charBefore.left) {
-        return END;
-      }
-
-      return ISOLATED;
+      if (charBefore.left) return END;
     }
+
+    // Handle character that can connect to left only
+    if (this.leftOnly) {
+      if (charAfter.right) return START;
+    }
+
+    return ISOLATED;
   }
 }
 

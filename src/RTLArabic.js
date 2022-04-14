@@ -54,7 +54,7 @@ class RTLArabic extends String {
   static numbers = "0123456789٠١٢٣٤٥٦٧٨٩";
 
   constructor(str, config = {}) {
-    super(str);
+    super(str?.trim());
 
     // Config/Options
     this.config = config;
@@ -305,8 +305,12 @@ class RTLArabic extends String {
       }
 
       // Get character position
-      const charBefore = new RTLChar(this.chars[i - before]);
-      const charAfter = new RTLChar(this.chars[i + after]);
+      let charBefore = new RTLChar(this.chars[i - before]);
+      let charAfter = new RTLChar(this.chars[i + after]);
+
+      charBefore = charBefore != "undefined" ? charBefore : null;
+      charAfter = charAfter != "undefined" ? charAfter : null;
+
       this.pos = CURRENT_CHAR.getPos(charBefore, charAfter);
 
       i = this.runTests(CURRENT_CHAR, i);

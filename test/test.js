@@ -13,7 +13,7 @@ describe("Should Support Harakat", function () {
   it("should display harakat correctly", function () {
     const before = "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ";
     const after = new RTLArabic(before, { harakat: true }).convert();
-    const expected = "ِﻢْﻴِﺣَّﺭﻟﺍ ِﻦٰﻢْﺣَّﺭﻟﺍ ِﻪﻠﻟﺍ ِﻢْﺴِﺑ";
+    const expected = "ِﻢْﻴِﺣَّﺮﻟﺍ ِﻥٰﻢْﺣَّﺮﻟﺍ ِﻪﻠﻟﺍ ِﻢْﺴِﺑ";
     assert.equal(after, expected);
   });
 });
@@ -22,7 +22,7 @@ describe("Should Support Brackets", function () {
   it("should display brackets correctly", function () {
     const before = "Hello, 123 {}[] اليوم";
     const after = new RTLArabic(before).convert();
-    const expected = "ﻢﻭﻴﻟﺍ Hello, 123 {}[]";
+    const expected = "ﻡﻮﻴﻟﺍ Hello, 123 {}[]";
     assert.equal(after, expected);
   });
 });
@@ -31,7 +31,7 @@ describe("Should Support Arabic and English", function () {
   it("should display space between English and Arabic text properly", function () {
     const before = "Hello, السلام عليكم";
     const after = new RTLArabic(before).convert();
-    const expected = "ﻢﻜﻴﻠﻋ ﻢﻼﺴﻟﺍ Hello,";
+    const expected = "ﻢﻜﻴﻠﻋ ﻡﻼﺴﻟﺍ Hello,";
     assert.equal(after, expected);
   });
 });
@@ -40,7 +40,7 @@ describe("Should Support Farsi", function () {
   it("should support farsi", function () {
     const before = "به خانه خوش آمدی";
     const after = new RTLArabic(before).convert();
-    const expected = "یﺩﻣﺁ ﺶﻭﺧ ﻪﻧﺍﺧ ﻪﺑ";
+    const expected = "یﺪﻣﺁ ﺵﻮﺧ ﻪﻧﺎﺧ ﻪﺑ";
     assert.equal(after, expected);
   });
 });
