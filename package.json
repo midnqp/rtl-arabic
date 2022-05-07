@@ -1,7 +1,7 @@
 {
   "name": "rtl-arabic",
-  "version": "2.0.2",
-  "description": "Display arabic text from right to left in console/terminal. It's doesn't support the letters with punctuations yet. I'll complete it when I get time. The code is not the best but it works for now.",
+  "version": "2.0.3",
+  "description": "Display Arabic and Farsi text from right to left correctly with harakat, numbers, and symbols. Useful for CLI's/console applications.",
   "main": "index.js",
   "homepage": "https://github.com/6f5/rtl-arabic#readme",
   "repository": {

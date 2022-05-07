@@ -85,7 +85,3 @@ npm test
 - ~~Support Farsi Numbers~~
 - ~~Support English (I couldn't think of a scenario where you'd use that but I'll add it for your convenience!)~~
 - ~~Add options object for flexibility~~
-
-This motivates me to keep it updated. (Pull requests are welcome)
-
-<a href="https://www.buymeacoffee.com/drrg" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
