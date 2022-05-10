@@ -44,14 +44,14 @@ const charSet = {
 
 class RTLArabic extends String {
   // Unicode
-  static unicode =
+  static #UNICODE =
     "ﺁﺁﺂﺂﺃﺃﺄﺄﺅﺅﺆﺆﺇﺇﺈﺈﺉﺋﺌﺊﺍﺍﺎﺎﺏﺑﺒﺐﺓﺓﺔﺔﺕﺗﺘﺖﺙﺛﺜﺚﺝﺟﺠﺞﺡﺣﺤﺢﺥﺧﺨﺦﺩﺩﺪﺪﺫﺫﺬﺬﺭﺭﺮﺮﺯﺯﺰﺰﺱﺳﺴﺲﺵﺷﺸﺶﺹﺻﺼﺺﺽﺿﻀﺾﻁﻃﻄﻂﻅﻇﻈﻆﻉﻋﻌﻊﻍﻏﻐﻎﻑﻓﻔﻒﻕﻗﻘﻖﻙﻛﻜﻚﻝﻟﻠﻞﻡﻣﻤﻢﻥﻧﻨﻦﻩﻫﻬﻪﻭﻭﻮﻮﻯﻯﻰﻰﻱﻳﻴﻲﻵﻵﻶﻶﻷﻷﻸﻸﻹﻹﻺﻺﻻﻻﻼﻼ";
 
   // All Arabic letters, harakat and symbols
-  static arabic = "ًٌٍَُِّْْئءؤرلاىةوزظشسيبلاتنمكطضصثقفغعهخحجدذْلآآلأأـلإإ،؟";
+  static #ARABIC = "ًٌٍَُِّْْئءؤرلاىةوزظشسيبلاتنمكطضصثقفغعهخحجدذْلآآلأأـلإإ،؟";
 
   // Arabic, English numbers
-  static numbers = "0123456789٠١٢٣٤٥٦٧٨٩";
+  static #NUMBERS = "0123456789٠١٢٣٤٥٦٧٨٩";
 
   constructor(str, config = {}) {
     super(str?.trim());
@@ -68,10 +68,10 @@ class RTLArabic extends String {
     this.pos = 0;
     this.engStr = "";
 
-    this.init();
+    this.#init();
   }
 
-  init() {
+  #init() {
     if (typeof this.config !== "object") {
       throw new Error("Config must be an object");
     }
@@ -83,7 +83,7 @@ class RTLArabic extends String {
     };
   }
 
-  convertNumbers() {
+  #convertNumbers() {
     // Iterate over the letters
     for (let j = 0; j < this.chars.length; j++) {
       const char = this.chars[j];
@@ -95,14 +95,14 @@ class RTLArabic extends String {
         // If the character equals to the current number
         if (char === number) {
           // Convert the number to the arabic equivalent
-          this.chars[j] = RTLArabic.numbers[10 + n];
+          this.chars[j] = RTLArabic.#NUMBERS[10 + n];
           break;
         }
       }
     }
   }
 
-  ignoreHarakat(before, after, index) {
+  #ignoreHarakat(before, after, index) {
     let char = new RTLChar(this.chars[index - before]);
     while (char?.isHaraka()) {
       before++;
@@ -118,11 +118,11 @@ class RTLArabic extends String {
     return [before, after];
   }
 
-  addEngChar(index) {
+  #addEngChar(index) {
     // Add english letters, numbers, and symbols as is
     while (
-      RTLArabic.arabic.indexOf(this.chars[index]) < 0 &&
-      RTLArabic.unicode.indexOf(this.chars[index]) < 0 &&
+      RTLArabic.#ARABIC.indexOf(this.chars[index]) < 0 &&
+      RTLArabic.#UNICODE.indexOf(this.chars[index]) < 0 &&
       this.chars[index] !== undefined
     ) {
       this.engStr += this.chars[index];
@@ -154,142 +154,136 @@ class RTLArabic extends String {
     return index;
   }
 
-  addChar(char) {
+  #addChar(char) {
     this.convertedStr = char + this.convertedStr;
   }
 
-  handleEOL(char) {
+  #handleEOL(char) {
     if (char === "\r") return;
 
     // Add new line character to converted text as is
     this.convertedStr = "\n" + this.convertedStr;
   }
 
-  getChar(key) {
+  #getChar(key) {
     return charSet[key][this.pos];
   }
 
-  runTests(char, index) {
+  #runTests(char, index) {
     if (char.isEOL()) {
-      this.handleEOL(char);
+      this.#handleEOL(char);
     } else if (char.isBracket()) {
-      this.addChar(char.toBracket());
+      this.#addChar(char.toBracket());
     } else if (char == "ء") {
-      this.addChar("ﺀ");
+      this.#addChar("ﺀ");
     } else if (char == "آ") {
       //dealing with letters, output each letter with its right position
-      this.addChar(this.getChar("alfmd"));
+      this.#addChar(this.#getChar("alfmd"));
     } else if (char == "أ") {
-      this.addChar(this.getChar("alfhz"));
+      this.#addChar(this.#getChar("alfhz"));
     } else if (char == "ؤ") {
-      this.addChar(this.getChar("wowhz"));
+      this.#addChar(this.#getChar("wowhz"));
     } else if (char == "إ") {
-      this.addChar(this.getChar("alfxr"));
+      this.#addChar(this.#getChar("alfxr"));
     } else if (char == "ئ") {
-      this.addChar(this.getChar("hamzk"));
+      this.#addChar(this.#getChar("hamzk"));
     } else if (char == "ا") {
-      this.addChar(this.getChar("alfff"));
+      this.#addChar(this.#getChar("alfff"));
     } else if (char == "ب") {
-      this.addChar(this.getChar("baaaa"));
+      this.#addChar(this.#getChar("baaaa"));
     } else if (char == "ة") {
-      this.addChar(this.getChar("tamrb"));
+      this.#addChar(this.#getChar("tamrb"));
     } else if (char == "ت") {
-      this.addChar(this.getChar("taaaa"));
+      this.#addChar(this.#getChar("taaaa"));
     } else if (char == "ث") {
-      this.addChar(this.getChar("thaaa"));
+      this.#addChar(this.#getChar("thaaa"));
     } else if (char == "ج") {
-      this.addChar(this.getChar("geeem"));
+      this.#addChar(this.#getChar("geeem"));
     } else if (char == "ح") {
-      this.addChar(this.getChar("haaaa"));
+      this.#addChar(this.#getChar("haaaa"));
     } else if (char == "خ") {
-      this.addChar(this.getChar("khaaa"));
+      this.#addChar(this.#getChar("khaaa"));
     } else if (char == "د") {
-      this.addChar(this.getChar("daaal"));
+      this.#addChar(this.#getChar("daaal"));
     } else if (char == "ذ") {
-      this.addChar(this.getChar("thaal"));
+      this.#addChar(this.#getChar("thaal"));
     } else if (char == "ر") {
-      this.addChar(this.getChar("raaaa"));
+      this.#addChar(this.#getChar("raaaa"));
     } else if (char == "ز") {
-      this.addChar(this.getChar("zaaai"));
+      this.#addChar(this.#getChar("zaaai"));
     } else if (char == "س") {
-      this.addChar(this.getChar("seeen"));
+      this.#addChar(this.#getChar("seeen"));
     } else if (char == "ش") {
-      this.addChar(this.getChar("sheen"));
+      this.#addChar(this.#getChar("sheen"));
     } else if (char == "ص") {
-      this.addChar(this.getChar("saaad"));
+      this.#addChar(this.#getChar("saaad"));
     } else if (char == "ض") {
-      this.addChar(this.getChar("daaad"));
+      this.#addChar(this.#getChar("daaad"));
     } else if (char == "ط") {
-      this.addChar(this.getChar("taaah"));
+      this.#addChar(this.#getChar("taaah"));
     } else if (char == "ظ") {
-      this.addChar(this.getChar("daaah"));
+      this.#addChar(this.#getChar("daaah"));
     } else if (char == "ع") {
-      this.addChar(this.getChar("aayen"));
+      this.#addChar(this.#getChar("aayen"));
     } else if (char == "غ") {
-      this.addChar(this.getChar("gayen"));
+      this.#addChar(this.#getChar("gayen"));
     } else if (char == "ف") {
-      this.addChar(this.getChar("faaaa"));
+      this.#addChar(this.#getChar("faaaa"));
     } else if (char == "ق") {
-      this.addChar(this.getChar("qaaaf"));
+      this.#addChar(this.#getChar("qaaaf"));
     } else if (char == "ك") {
-      this.addChar(this.getChar("kaaaf"));
+      this.#addChar(this.#getChar("kaaaf"));
     } else if (char == "ل") {
       index++; //dealing with la combination
       if (this.chars[index] == "ا") {
-        this.addChar(this.getChar("laaaa"));
+        this.#addChar(this.#getChar("laaaa"));
       } else if (this.chars[index] == "أ") {
-        this.addChar(this.getChar("laahz"));
+        this.#addChar(this.#getChar("laahz"));
       } else if (this.chars[index] == "إ") {
-        this.addChar(this.getChar("laaxr"));
+        this.#addChar(this.#getChar("laaxr"));
       } else if (this.chars[index] == "آ") {
-        this.addChar(this.getChar("laamd"));
+        this.#addChar(this.#getChar("laamd"));
       } else {
         index--;
-        this.addChar(this.getChar("laaam"));
+        this.#addChar(this.#getChar("laaam"));
       }
     } else if (char == "م") {
-      this.addChar(this.getChar("meeem"));
+      this.#addChar(this.#getChar("meeem"));
     } else if (char == "ن") {
-      this.addChar(this.getChar("nooon"));
+      this.#addChar(this.#getChar("nooon"));
     } else if (char == "ه") {
-      this.addChar(this.getChar("hhhhh"));
+      this.#addChar(this.#getChar("hhhhh"));
     } else if (char == "و") {
-      this.addChar(this.getChar("wowww"));
+      this.#addChar(this.#getChar("wowww"));
     } else if (char == "ى") {
-      this.addChar(this.getChar("yaamd"));
+      this.#addChar(this.#getChar("yaamd"));
     } else if (char == "ي") {
-      this.addChar(this.getChar("yaaaa"));
+      this.#addChar(this.#getChar("yaaaa"));
     } else if (char == "لآ") {
-      this.addChar(this.getChar("laamd"));
+      this.#addChar(this.#getChar("laamd"));
     } else if (char == "لأ") {
-      this.addChar(this.getChar("laahz"));
+      this.#addChar(this.#getChar("laahz"));
     } else if (char == "لإ") {
-      this.addChar(this.getChar("laaxr"));
+      this.#addChar(this.#getChar("laaxr"));
     } else if (char == "لا") {
-      this.addChar(this.getChar("laaaa"));
+      this.#addChar(this.#getChar("laaaa"));
     } else if (char.isSymbol()) {
       //if the char is a symbol, add it
-      this.addChar(char);
-    } else if (RTLArabic.unicode.indexOf(char) >= 0) {
+      this.#addChar(char);
+    } else if (RTLArabic.#UNICODE.indexOf(char) >= 0) {
       //if the char is an arabic reversed letter, reverse it back!
-      this.addChar(char);
+      this.#addChar(char);
       //if the char is none of the above, then treat it as english text (dont reverse)
     } else {
-      index = this.addEngChar(index);
+      index = this.#addEngChar(index);
     }
 
     return index;
   }
 
-  handleSymbols() {}
-
-  handleReversed() {}
-
-  handleNonPrintable() {}
-
   convert() {
     if (this.config.numbers) {
-      this.convertNumbers();
+      this.#convertNumbers();
     }
 
     const len = this.chars.length;
@@ -301,7 +295,7 @@ class RTLArabic extends String {
 
       if (this.config.harakat) {
         // ignore harakat
-        [before, after] = this.ignoreHarakat(before, after, i);
+        [before, after] = this.#ignoreHarakat(before, after, i);
       }
 
       // Get character position
@@ -313,7 +307,7 @@ class RTLArabic extends String {
 
       this.pos = CURRENT_CHAR.getPos(charBefore, charAfter);
 
-      i = this.runTests(CURRENT_CHAR, i);
+      i = this.#runTests(CURRENT_CHAR, i);
     }
 
     return this.convertedStr;

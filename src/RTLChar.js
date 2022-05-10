@@ -6,22 +6,22 @@ const END = 3;
 
 class RTLChar extends String {
   // Characters that get connected from the right
-  static rightChars = "ـئؤرلالآىآةوزظشسيبللأاأتنمكطضصثقفغعهخحجدذلإإ";
+  static #RIGHT_CHARS = "ـئؤرلالآىآةوزظشسيبللأاأتنمكطضصثقفغعهخحجدذلإإ";
 
   // Characters that get connected from the left
-  static leftChars = "ـئظشسيبلتنمكطضصثقفغعهخحج";
+  static #LEFT_CHARS = "ـئظشسيبلتنمكطضصثقفغعهخحج";
 
   // Brackets
-  static brackets = "{}()";
+  static #BRACKETS = "{}()";
 
   // Harakat
-  static harakat = "ًٌٍَُِّْْ";
+  static #HARAKAT = "ًٌٍَُِّْْ";
 
   // Sybmols
-  static symbols = "ًٌٍَُِّـ.،؟ @#$%^&*-+|/=~(){}ْ,";
+  static #SYMBOLS = "ًٌٍَُِّـ.،؟ @#$%^&*-+|/=~(){}ْ,";
 
   // Alef chars
-  static alefChars = "آأإا";
+  static #ALEF_CHARS = "آأإا";
 
   constructor(string) {
     super(string);
@@ -34,7 +34,7 @@ class RTLChar extends String {
   }
 
   isAlefChar() {
-    return RTLChar.alefChars.indexOf(this) >= 0;
+    return RTLChar.#ALEF_CHARS.indexOf(this) >= 0;
   }
 
   isMiddle() {
@@ -54,19 +54,19 @@ class RTLChar extends String {
   }
 
   isLeft() {
-    return RTLChar.leftChars.indexOf(this) >= 0;
+    return RTLChar.#LEFT_CHARS.indexOf(this) >= 0;
   }
 
   isRight() {
-    return RTLChar.rightChars.indexOf(this) >= 0;
+    return RTLChar.#RIGHT_CHARS.indexOf(this) >= 0;
   }
 
   isBracket() {
-    return RTLChar.brackets.indexOf(this) >= 0;
+    return RTLChar.#BRACKETS.indexOf(this) >= 0;
   }
 
   isHaraka() {
-    return RTLChar.harakat.indexOf(this) >= 0;
+    return RTLChar.#HARAKAT.indexOf(this) >= 0;
   }
 
   isEOL() {
@@ -74,11 +74,11 @@ class RTLChar extends String {
   }
 
   isSymbol() {
-    return RTLChar.symbols.indexOf(this) >= 0;
+    return RTLChar.#SYMBOLS.indexOf(this) >= 0;
   }
 
   toBracket() {
-    let bracketIndex = RTLChar.brackets.indexOf(char);
+    let bracketIndex = RTLChar.#BRACKETS.indexOf(char);
     if (bracketIndex >= 0) {
       if (bracketIndex % 2 == 0) {
         bracketIndex++;
@@ -86,7 +86,7 @@ class RTLChar extends String {
         bracketIndex--;
       }
     }
-    return RTLChar.brackets[bracketIndex];
+    return RTLChar.#BRACKETS[bracketIndex];
   }
 
   getPos(charBefore, charAfter) {
