@@ -1,6 +1,6 @@
 {
   "name": "rtl-arabic",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Display Arabic and Farsi text from right to left correctly with harakat, numbers, and symbols. Useful for CLI's/console applications.",
   "main": "index.js",
   "homepage": "https://github.com/6f5/rtl-arabic#readme",
