@@ -79,6 +79,7 @@ class RTLArabic extends String {
     this.config = {
       harakat: true,
       numbers: false,
+      multiline: true,
       ...this.config,
     };
   }
@@ -102,6 +103,33 @@ class RTLArabic extends String {
     }
   }
 
+  static isArabic(text) {
+    if (text.length === 1) {
+      const char = text;
+      if (
+        RTLArabic.#UNICODE.indexOf(char) >= 0 ||
+        RTLArabic.#ARABIC.indexOf(char) >= 0
+      ) {
+        return true;
+      }
+
+      return false;
+    }
+
+    const chars = text.split("");
+    for (let i = 0; i < chars.length; i++) {
+      const char = chars[i];
+      if (
+        RTLArabic.#UNICODE.indexOf(char) >= 0 ||
+        RTLArabic.#ARABIC.indexOf(char) >= 0
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   #ignoreHarakat(before, after, index) {
     let char = new RTLChar(this.chars[index - before]);
     while (char?.isHaraka()) {
@@ -121,8 +149,7 @@ class RTLArabic extends String {
   #addEngChar(index) {
     // Add english letters, numbers, and symbols as is
     while (
-      RTLArabic.#ARABIC.indexOf(this.chars[index]) < 0 &&
-      RTLArabic.#UNICODE.indexOf(this.chars[index]) < 0 &&
+      !RTLArabic.isArabic(this.chars[index]) &&
       this.chars[index] !== undefined
     ) {
       this.engStr += this.chars[index];
@@ -162,7 +189,9 @@ class RTLArabic extends String {
     if (char === "\r") return;
 
     // Add new line character to converted text as is
-    this.convertedStr = "\n" + this.convertedStr;
+    if (this.config.multiline) {
+      this.convertedStr = "\n" + this.convertedStr;
+    }
   }
 
   #getChar(key) {

@@ -35,9 +35,11 @@ Sure, most applications don't support the Arabic language, but they support the 
 ```js
 const RTLArabic = require("rtl-arabic");
 
+// These are the default options
 const options = {
   harakat: true,
   numbers: false,
+  multiline: true,
 };
 
 let convertedText = new RTLArabic("احبكم", options).convert();
@@ -48,19 +50,56 @@ convertedText = new RTLArabic("السلام عليكم - 2022", {
   numbers: true,
 }).convert();
 console.log(convertedText); // السلام عليكم - ٢٠٢٢
+
+// Check if text is Arabic
+const isArabic = RTLArabic.isArabic("كيف الحال؟");
+if (isArabic) {
+  // Do something
+  console.log("The text is indeed Arabic");
+}
 ```
 
 # Options
 
-| Option  |                 Description                 | Default Value |    Type |
-| :------ | :-----------------------------------------: | ------------: | ------: |
-| harakat |           Enable harakat support            |          True | Boolean |
-| numbers | Enable English to Arabic numbers conversion |         False | Boolean |
+| Option    |                 Description                 | Default Value |    Type |
+| :-------- | :-----------------------------------------: | ------------: | ------: |
+| harakat   |           Enable harakat support            |          True | Boolean |
+| multiline |          Enable multiline support           |          True | Boolean |
+| numbers   | Enable English to Arabic numbers conversion |         False | Boolean |
 
 # Tests
 
 ```js
 npm test
+```
+
+# Console App Example
+
+```js
+const RTLArabic = require("rtl-arabic");
+
+console.log("Enter something:");
+
+// Tell the input stream we're ready to start reading
+process.stdin.resume();
+
+// Set the default encoding
+process.stdin.setEncoding("utf8");
+
+// Ouput the transformed data as it comes in chunks
+process.stdin.on("data", function (text) {
+  // Check if text is Arabic
+  if (RTLArabic.isArabic(text)) {
+    const convertedText = new RTLArabic(text, {
+      numbers: true,
+      multiline: false,
+    }).convert();
+    process.stdout.write(convertedText);
+    return;
+  }
+
+  process.stdout.write(text.toUpperCase());
+});
 ```
 
 ## What's New?
@@ -73,6 +112,7 @@ npm test
 - Added Symbols Support
 - Added Farsi Support
 - Displays Arabic and English Text Properly
+- Check if text is Arabic
 
 # Todo:
 
